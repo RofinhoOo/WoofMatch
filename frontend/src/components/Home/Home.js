@@ -1,24 +1,37 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import Navbar from '../common/Navbar';
 import EventList from './EventList';
 
 const Home = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Aquí puedes hacer una solicitud a tu backend para obtener la lista de eventos.
-    // Puedes usar fetch() o librerías como axios.
-    // Ejemplo ficticio:
-    fetch('/api/events')
-      .then((response) => response.json())
-      .then((data) => setEvents(data.events));
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('/api/events');
+        const data = await response.json();
+        setEvents(data.events);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   return (
-    <div>
+    <div className="container mt-5">
       <Navbar />
-      <h1>Bienvenido a la Aplicación de Quedadas de Perros</h1>
-      <EventList events={events} />
+      <h1 className="mb-4">Bienvenido a la App WoofMatch</h1>
+      {loading ? (
+        <p>Cargando eventos...</p>
+      ) : (
+        <EventList events={events} />
+      )}
     </div>
   );
 };

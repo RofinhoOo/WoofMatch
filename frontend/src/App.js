@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   return (
